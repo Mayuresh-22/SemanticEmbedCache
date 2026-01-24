@@ -118,7 +118,6 @@ Thumbs.db
 
 # Project specific
 data/
-*.csv
 *.json
 !config.json
 logs/
