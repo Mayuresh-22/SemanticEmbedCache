@@ -24,6 +24,39 @@ Uses **semantic similarity search** to find cached embeddings for semantically s
   - Swappable storage backends (via `BaseStorage` interface)
 - **Easy integration**: Simple API with `.get(text)` method
 
+## Configuration
+
+```python
+# src/const/const.py
+SIMILARITY_THRESHOLD = 0.85           # Minimum similarity for cache hit
+HIGHEST_SIMILARITY_THRESHOLD = 0.98   # Early exit threshold (near-duplicates)
+```
+
+## Usage Example
+
+```python
+from langchain_cohere import CohereEmbeddings
+from src.SemanticEmbedCache import SemanticEmbedCache
+from src.embedder.KeyEmbedder import KeyEmbedder
+from src.storage.InMemStorage import InMemStorage
+
+# Initialize components
+key_embedder = KeyEmbedder()  # FastEmbed local model
+og_embedder = CohereEmbeddings(model="embed-english-v3.0")
+storage = InMemStorage()
+
+# Create cache
+sec = SemanticEmbedCache(
+    key_embedder=key_embedder,
+    og_embedder=og_embedder,
+    storage=storage
+)
+
+# Use cache
+embedding = sec.get("How do I reset my password?")  # API call (miss)
+embedding = sec.get("I forgot my password")          # Cache hit! (0.87 similarity)
+```
+
 ## Architecture
 
 ### Cache Structure
@@ -94,6 +127,8 @@ Tested on 100 diverse queries (exact duplicates, semantic variations, unique que
 | **SemanticEmbedCache** | **49.0%** | 0.327s | **2.04x better hit rate** |
 | LangChain CacheBackedEmbeddings | 24.0% | 0.282s | Only exact matches |
 
+(Just run the `benchmark.py` script to reproduce results)
+
 **Key Findings:**
 - **Hit Rate Impact**: Lowering threshold from 0.90 to 0.85 improves hit rate from 49% → 60% (+22% improvement)
 - **Speed Trade-off**: SEC is ~7% slower due to similarity search, but this is offset by:
@@ -111,39 +146,6 @@ Tested on 100 diverse queries (exact duplicates, semantic variations, unique que
 - LangChain's CacheBackedEmbeddings doesn't return hit/miss status natively; benchmark uses custom modification
 - Benchmarks performed using Cohere's `embed-english-v3.0` model as original embedder
 - Dataset: 100 queries with ~30% exact duplicates, ~40% semantic variations, ~30% unique queries
-
-## Configuration
-
-```python
-# src/const/const.py
-SIMILARITY_THRESHOLD = 0.85           # Minimum similarity for cache hit
-HIGHEST_SIMILARITY_THRESHOLD = 0.98   # Early exit threshold (near-duplicates)
-```
-
-## Usage Example
-
-```python
-from langchain_cohere import CohereEmbeddings
-from src.SemanticEmbedCache import SemanticEmbedCache
-from src.embedder.KeyEmbedder import KeyEmbedder
-from src.storage.InMemStorage import InMemStorage
-
-# Initialize components
-key_embedder = KeyEmbedder()  # FastEmbed local model
-og_embedder = CohereEmbeddings(model="embed-english-v3.0")
-storage = InMemStorage()
-
-# Create cache
-sec = SemanticEmbedCache(
-    key_embedder=key_embedder,
-    og_embedder=og_embedder,
-    storage=storage
-)
-
-# Use cache
-embedding = sec.get("How do I reset my password?")  # API call (miss)
-embedding = sec.get("I forgot my password")          # Cache hit! (0.87 similarity)
-```
 
 ## Performance Optimization Opportunities
 
