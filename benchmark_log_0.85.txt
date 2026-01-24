@@ -1,0 +1,8 @@
+[BENCHMARK] **Embedding + SEC benchmark (threshold: 0.85)**
+[BENCHMARK] SEC avg embedd time: 0.30035308837890623 seconds
+[BENCHMARK] SEC hit rate: 60.0 %
+[BENCHMARK] **Embedding + LangChain's CacheBackedEmbeddings benchmark**
+[BENCHMARK] LangChain's CacheBackedEmbeddings avg embedd time: 0.2812044358253479 seconds
+[BENCHMARK] LangChain's CacheBackedEmbeddings hit rate: 24.0 %
+[BENCHMARK] 
+**Benchmarking completed**
