@@ -1,5 +1,9 @@
-# SemanticEmbedCache (SEC)
-A semantic similarity-based cache for text embeddings that reduces redundant API calls and improves cache hit rates.
+<h1 align="center">SemanticEmbedCache (SEC)</h1>
+<h4 align="center">A semantic similarity-based cache for text embeddings that reduces redundant API calls and improves cache hit rates.</h4>
+<br/>
+
+<img width="1536" height="1024" alt="SemanticEmbedCache_3" src="https://github.com/user-attachments/assets/10891d16-97aa-422d-8297-77a56e8302bc" />
+
 
 ## Motivation
 Current embedding cache implementations (LangChain, etc.) use **exact string matching** as cache keys. This means "How do I reset my password?" and "I forgot my password" are treated as completely different queries, causing cache misses even though they're semantically identical.
