@@ -6,7 +6,7 @@
 
 
 ## Motivation
-Current embedding cache implementations (LangChain, etc.) use **exact string matching** as cache keys. This means "How do I reset my password?" and "I forgot my password" are treated as completely different queries, causing cache misses even though they're semantically identical.
+Current embedding cache implementations (LangChain, etc.) use a query/prompt as the cache key + perform **exact string matching** to search the cache keys. This means "How do I reset my password?" and "I forgot my password" are treated as completely different queries, causing cache misses even though they're semantically identical.
 
 **Problems with exact string matching:**
 - Sensitive to typos, punctuation, and minor wording changes
