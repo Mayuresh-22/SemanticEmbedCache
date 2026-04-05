@@ -1,5 +1,11 @@
 <h1 align="center">SemanticEmbedCache (SEC)</h1>
 <h4 align="center">A semantic similarity-based cache for text embeddings that reduces redundant API calls and improves cache hit rates.</h4>
+
+<div align="center">
+  
+<strong>Blog: [A Cache for Text Embeddings, But Intelligent](https://medium.com/@mayureshchoudhary22/a-cache-for-text-embeddings-but-intelligent-39b53fe842c3)</strong>
+</div>
+
 <br/>
 
 <img width="1536" height="1024" alt="SemanticEmbedCache_3" src="https://github.com/user-attachments/assets/10891d16-97aa-422d-8297-77a56e8302bc" />
